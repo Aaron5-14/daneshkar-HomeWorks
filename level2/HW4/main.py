@@ -10,4 +10,4 @@ while True:
         sign_up_menu()        
 
     elif user_input == '2':
-        log_in_menu()
+        login_menu()

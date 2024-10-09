@@ -1,6 +1,8 @@
 from users import *
 import os
 import platform
+import getpass
+
 
 def clear_screen():
     if platform.system() == "Windows":
@@ -11,8 +13,9 @@ def clear_screen():
 def sign_up_menu():
     clear_screen()
     username = input("Username: ")
-    password = input("Password: ")
+    password = getpass.getpass("Password: ")
     phone_number = input("Phone number: ")
+
     if len(phone_number) == 0:
         new_user = User(username, password)
     else:
@@ -22,7 +25,7 @@ def sign_up_menu():
         print("Account created!\n0. Back\n1. Log in")
         user_input = input("Input: ")
         if user_input == '1':
-            log_in_menu()
+            login_menu()
         else:
             return    
     else:
@@ -34,14 +37,13 @@ def sign_up_menu():
         else:
             return
 
-
-def log_in_menu():
+def login_menu():
     clear_screen()
     username = input("Username: ")
-    password = input("Password: ")
+    password = getpass.getpass("Password: ")
     user = User(username, password)
     
-    if user.log_in():
+    if user.login():
         clear_screen()
         print("Successfully Logged In!\n0. Continue")
         usr_input = input("Input: ")
@@ -50,10 +52,10 @@ def log_in_menu():
         print(user.error)
         print("0. Back\n1. Try Again")
         usr_input = input("Input: ")   
-        if usr_input == '0':
-            return
+        if usr_input == '1':
+            login_menu()
         else: 
-            log_in_menu()
+            return
          
         
 
@@ -63,6 +65,7 @@ def user_panel(user: User):
         clear_screen()
         print("1. Account Information\n2. Edit Profile\n3. Change Password\n4. Log Out")
         user_input = input("Input: ")
+
         if user_input == '1':
             clear_screen()
             print(user)
@@ -75,22 +78,51 @@ def user_panel(user: User):
             usr_input = input("Input: ")
             if usr_input == '1':
                 clear_screen()
-                new_username = input("New Username: ")
-                if user.set_username(new_username):
-                    print(f"Username successfully changed to {new_username}")
+                user.username = input("New Username: ")
+                if user.update():
+                    print(f"Username successfully changed to {user.username}")
                 else:
                     clear_screen()
                     print(user.error)
                     print("0. Back")    
                     usr_input = input("Input: ")
             elif usr_input == '2':
-                new_phone_number = input("New Phone Number: ")        
-                if user.set_phone_number(new_phone_number):
-                    print(f"Phone number successfully changed to {new_phone_number}")
+                user.phone_number = input("New Phone Number: ")        
+                if user.update():
+                    print(f"Phone number successfully changed to {user.phone_number}")
                 else:
                     clear_screen()
                     print(user.error)                   
                     print("0. Back")    
                     usr_input = input("Input: ")
         elif user_input == '3':
-            #get password and verify using static method
+            password = getpass.getpass("Current Password: ")
+            new_password = getpass.getpass("New Password: ")
+            repeat_password = getpass.getpass("Repeat Password: ")
+            if user.password == password and new_password == repeat_password:
+                user.password = new_password
+                if user.update():
+                    clear_screen() #####
+                    print(f"Password Successfully updated!")
+                    print("0. Back")    
+                    usr_input = input("Input: ")
+                else:
+                    clear_screen()
+                    print(user.error)
+                    print("0. Back")    
+                    usr_input = input("Input: ")   
+            elif not user.password == password:
+                clear_screen()
+                print("Error: Wrong Password.")
+                print("0. Back")    
+                usr_input = input("Input: ")                    
+            else:
+                print("Error: Passwords do not match!")
+                print("0. Back")    
+                usr_input = input("Input: ")    
+        elif user_input == '4':
+            clear_screen()
+            print("Logged Out!\n1. Continue")
+            usr_input = input("Input: ")
+            return                
+        
