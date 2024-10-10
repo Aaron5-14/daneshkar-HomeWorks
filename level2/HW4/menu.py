@@ -4,7 +4,10 @@ import platform
 import getpass
 
 
-def clear_screen():
+def clear_screen() -> None:
+    """
+    Clears Screen
+    """
     if platform.system() == "Windows":
         os.system('cls')
     else:
@@ -78,8 +81,8 @@ def user_panel(user: User):
             usr_input = input("Input: ")
             if usr_input == '1':
                 clear_screen()
-                user.username = input("New Username: ")
-                if user.update():
+                username = input("New Username: ")
+                if user.change_username(username):
                     print(f"Username successfully changed to {user.username}")
                 else:
                     clear_screen()
@@ -87,8 +90,8 @@ def user_panel(user: User):
                     print("0. Back")    
                     usr_input = input("Input: ")
             elif usr_input == '2':
-                user.phone_number = input("New Phone Number: ")        
-                if user.update():
+                phone_number = input("New Phone Number: ")        
+                if user.change_phone_number(phone_number):
                     print(f"Phone number successfully changed to {user.phone_number}")
                 else:
                     clear_screen()
@@ -96,12 +99,12 @@ def user_panel(user: User):
                     print("0. Back")    
                     usr_input = input("Input: ")
         elif user_input == '3':
-            password = getpass.getpass("Current Password: ")
+            password = User._hash_password(getpass.getpass("Current Password: "))
             new_password = getpass.getpass("New Password: ")
             repeat_password = getpass.getpass("Repeat Password: ")
+            
             if user.password == password and new_password == repeat_password:
-                user.password = new_password
-                if user.update():
+                if user.change_password(new_password):
                     clear_screen() #####
                     print(f"Password Successfully updated!")
                     print("0. Back")    
@@ -113,6 +116,7 @@ def user_panel(user: User):
                     usr_input = input("Input: ")   
             elif not user.password == password:
                 clear_screen()
+                print(password, user.password)
                 print("Error: Wrong Password.")
                 print("0. Back")    
                 usr_input = input("Input: ")                    
