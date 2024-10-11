@@ -13,7 +13,12 @@ def clear_screen() -> None:
     else:
         os.system('clear')
 
-def sign_up_menu():
+def sign_up_menu() -> None:
+    """
+    Menu to do the sign up process.
+     
+    It asks for username, password and phone number to process.
+    """
     clear_screen()
     username = input("Username: ")
     password = getpass.getpass("Password: ")
@@ -32,7 +37,7 @@ def sign_up_menu():
         else:
             return    
     else:
-        print(new_user.error)
+        print(new_user.error())
         print("0. Back\n1. Try Again")    
         user_input = input("Input: ")
         if user_input == '1':
@@ -41,6 +46,11 @@ def sign_up_menu():
             return
 
 def login_menu():
+    """
+    Menu that asks for username and password and verifies the
+    credentials and depending on outcome it will either login the user
+    or print error.
+    """
     clear_screen()
     username = input("Username: ")
     password = getpass.getpass("Password: ")
@@ -52,7 +62,7 @@ def login_menu():
         usr_input = input("Input: ")
         user_panel(user)
     else:
-        print(user.error)
+        print(user.error())
         print("0. Back\n1. Try Again")
         usr_input = input("Input: ")   
         if usr_input == '1':
@@ -63,7 +73,21 @@ def login_menu():
         
 
 
-def user_panel(user: User):
+def user_panel(user: User) -> None:
+    """
+    User panel with 4 options. 
+    1. Account information: shows id, username and phone number.
+    2. Edit profile: allows to modify username and phone number.
+    3. Edit password: modify password.
+    4. Log Out
+
+    Parameters:
+    user : User
+        The user that "logged in" or has access to above functions.
+
+    Returns:
+    None
+    """
     while True:
         clear_screen()
         print("1. Account Information\n2. Edit Profile\n3. Change Password\n4. Log Out")
@@ -86,7 +110,7 @@ def user_panel(user: User):
                     print(f"Username successfully changed to {user.username}")
                 else:
                     clear_screen()
-                    print(user.error)
+                    print(user.error())
                     print("0. Back")    
                     usr_input = input("Input: ")
             elif usr_input == '2':
@@ -95,7 +119,7 @@ def user_panel(user: User):
                     print(f"Phone number successfully changed to {user.phone_number}")
                 else:
                     clear_screen()
-                    print(user.error)                   
+                    print(user.error())                   
                     print("0. Back")    
                     usr_input = input("Input: ")
         elif user_input == '3':
@@ -111,7 +135,7 @@ def user_panel(user: User):
                     usr_input = input("Input: ")
                 else:
                     clear_screen()
-                    print(user.error)
+                    print(user.error())
                     print("0. Back")    
                     usr_input = input("Input: ")   
             elif not user.password == password:
