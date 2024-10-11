@@ -1,3 +1,6 @@
+"""
+This hold all menus used.
+"""
 from users import *
 import os
 import platform

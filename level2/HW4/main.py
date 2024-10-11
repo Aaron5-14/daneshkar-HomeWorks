@@ -1,3 +1,9 @@
+"""
+Name: Ali Shirazi Zamani
+Level: 2
+Homework: 4
+ToDo: Create a user authentication and storage system.
+"""
 from menu import *
 while True:
     clear_screen()

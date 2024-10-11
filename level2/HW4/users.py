@@ -1,3 +1,7 @@
+"""
+The users class which maanges user information storage and 
+authentication. It acts similar to login signup systems.
+"""
 import hashlib
 import uuid
 class User:
